@@ -1,87 +1,371 @@
-<!-- Tavo vardas Pavardė, grupė (pvz. EIS-23) -->
 <!DOCTYPE html>
 <html lang="lt">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mano CV</title>
+  <!-- Vaidilė Dubickaitė, EDIF-24/2 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Vaidilė Dubickaitė" />
+  <meta name="description" content="Vaidilė Dubickaitė CV puslapis" />
+  <title>Mano CV</title>
+
+  <!-- Favicons (paliekame šablono numatytuosius) -->
+  <link href="assets/img/favicon.png" rel="icon" />
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+
+  <!-- Main CSS File (šablono) -->
+  <link href="assets/css/main.css" rel="stylesheet" />
+
+  <!-- =======================================================
+  * Template Name: Kelly (BootstrapMade)
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
-<body>
 
-    <!-- Antraštės -->
-    <h1>Vaidilė Dubickaitė</h1>
-    <h5>Informacinių technologijų studijos</h5>
+<body class="index-page">
 
-    <!-- Pastraipa -->
-    <p>Man patinka kurti elektronikos projektus ir programuoti mikrovaldiklius, ypač su Arduino ir ESP32.</p>
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center light-background sticky-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
-    <!-- Nuoroda -->
-    <a href="https://www.w3schools.com/html/" target="_blank">HTML mokymosi svetainė</a>
+      <a href="#hero" class="logo d-flex align-items-center me-auto me-xl-0">
+        <h1 class="sitename">Vaidilė</h1>
+      </a>
 
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Pradžia</a></li>
+          <li><a href="#about">Apie</a></li>
+          <li><a href="#resume">Aprašymas</a></li>
+          <li><a href="#services">Medija</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Kontaktai</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
-    <!-- Sąrašai -->
-    <h3>Dominančios sritys</h3>
-    <ol>
-        <li>Dirbtinis intelektas</li>
-        <li>Internet of Things</li>
-        <li>Automobilių elektronika</li>
-    </ol>
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
 
-    <h3>Technologijos, kurias noriu išmokti</h3>
-    <ul>
-        <li>Python</li>
-        <li>JavaScript</li>
-        <li>ESP32 programavimas</li>
-    </ul>
-
-    <!-- Div konteineris -->
-    <div>
-        <p>Šis tekstas, nuoroda ir paveikslėlis yra tame pačiame konteineryje.</p>
-        <a href="https://www.w3schools.com/html/">W3Schools nuoroda</a>
-        <img src="img/svajoniudarbas.jpg" alt="Pavyzdinis paveikslėlis">
     </div>
+  </header>
+  <!-- /Header -->
 
-    <!-- 
-    Komentarai:
-    <!DOCTYPE html> – nurodo HTML5 dokumento tipą
-    <html> – apima visą puslapio struktūrą
-    <head> – talpina puslapio meta informaciją
-    <meta> – aprašo koduotę ir kitus nustatymus
-    <title> – puslapio pavadinimas naršyklėje
-    <body> – viskas, kas matoma puslapyje
-    <div> – grupuoja elementus į bendrą konteinerį
-    -->
+  <main class="main">
 
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <!-- Pagrindinis fonas – tavo foto -->
+      <img src="assets/img/portfolio-3.jpeg" alt="Vaidilė Dubickaitė" data-aos="fade-in">
+
+      <div class="container text-center" data-aos="zoom-out" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2>Vaidilė Dubickaitė</h2>
+            <p>Dirbtinio intelekto sistemų studentė, kūrybiška ir energinga</p>
+            <a href="#about" class="btn-get-started">Apie mane</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Apie mane</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 content">
+            <p>
+              Esu motyvuota, greitai besimokanti ir kūrybiška. Nuo 2024 m. studijuoju Dirbtinio intelekto sistemas
+              Vilnius Tech universitete, kur gilinuosi į programavimą, algoritmus ir šiuolaikines technologijas.
+              Mane įkvepia galimybės žinias pritaikyti praktiškai – kurti sistemas, spręsti realias problemas ir nuolat
+              tobulėti IT srityje.
+            </p>
+            <p>
+              Stipri sportinė patirtis – profesionalus jojimas, snieglenčių sportas, „crossfit“ ir vandens sportas – išmokė
+              disciplinos, ištvermės ir ryžto. Kūrybiškumą puoselėju per muziką, fotografiją ir meną, o įvairi darbo patirtis –
+              nuo aptarnavimo iki administravimo – sustiprino bendravimo, prisitaikymo ir komandinio darbo gebėjimus.
+              Esu atsakinga, organizuota ir atvira naujoms patirtims.
+            </p>
+
+            <ul class="list-unstyled mt-3">
+              <li><i class="bi bi-geo-alt"></i> Vilnius, Lietuva</li>
+              <li><i class="bi bi-envelope"></i> vaidile18@gmail.com</li>
+              <li><i class="bi bi-phone"></i> +370 620 72363</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /About Section -->
+
+    <!-- Resume Section -->
+    <section id="resume" class="resume section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Aprašymas</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <h3 class="resume-title">Išsilavinimas</h3>
+
+            <div class="resume-item">
+              <h4>Vilnius Tech – Dirbtinio intelekto sistemų bakalauras</h4>
+              <h5>2024 – dabar</h5>
+              <p><em>Vilnius</em></p>
+            </div>
+
+            <div class="resume-item">
+              <h4>Marinos Mizigurskajos privati gimnazija</h4>
+              <h5>Baigta 2022</h5>
+              <p><em>Vilnius</em></p>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <h3 class="resume-title">Darbo patirtis</h3>
+
+            <div class="resume-item">
+              <h4>Padavėja / Barmenė – UAB „Vanduo Marse“</h4>
+              <h5>2024 04 – 2024 07</h5>
+              <ul>
+                <li>Gėrimų ir kokteilių ruošimas, klientų aptarnavimas.</li>
+                <li>Draugiškos atmosferos užtikrinimas.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Administratorė / Barmenė – „iBar“, Vilnius</h4>
+              <h5>2023 08 – 2024 01</h5>
+              <ul>
+                <li>Savitarno baro administravimas, klientų aptarnavimas.</li>
+                <li>Atsargų valdymas, įrangos priežiūra.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Instruktorė / Asistentė – „Wake Inn Vilnius“</h4>
+              <h5>2023 04 – 2023 08</h5>
+              <ul>
+                <li>Vandens sporto instruktavimas, saugumo procedūros.</li>
+                <li>Pagalba administracijai ir virtuvei, baro aptarnavimas.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Jojimo trenerė – Sudervės jojimo mokykla</h4>
+              <h5>2022 07 – 2022 08</h5>
+              <ul>
+                <li>Jojimo treniruotės iki varžybinio lygio.</li>
+                <li>Saugaus ir draugiško mikroklimato palaikymas.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Padavėja / Bufeto asistentė – SEB Arena</h4>
+              <h5>2022 02 – 2022 04</h5>
+              <ul>
+                <li>Maisto ir gėrimų aptarnavimas, VIP zonų paruošimas.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Arklių trenerė – UAB „Horse Market“</h4>
+              <h5>2021 09 – 2022 01</h5>
+              <ul>
+                <li>Arklidžių priežiūra, arklių fizinis parengimas ir gerovė.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Instruktorė – „Wake Up Kaunas“</h4>
+              <h5>2021 05 – 2021 11</h5>
+              <ul>
+                <li>Vandenlenčių parko klientų instruktavimas ir sauga.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <h4>Pakavimo ir rūšiavimo asistentė – NORDGUT, Vokietija</h4>
+              <h5>2020 11 – 2021 05</h5>
+              <ul>
+                <li>Šaltos grandinės produktų pakavimas ir paruošimas išsiuntimui.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /Resume Section -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Portfolio</h2>
+        </div>
+
+        <div class="row gy-4 portfolio-container">
+          <div class="col-lg-4 col-md-6 portfolio-item">
+            <div class="portfolio-wrap">
+              <img src="assets/img/IMG_0217.jpeg" class="img-fluid" alt="Arduino Nano ESP32 maketas">
+              <div class="portfolio-info">
+                <h4>Elektronika</h4>
+                <p>Arduino Nano ESP32</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item">
+            <div class="portfolio-wrap">
+              <img src="assets/img/portfolio-2.jpeg" class="img-fluid" alt="Portretinė nuotrauka sodyboje">
+              <div class="portfolio-info">
+                <h4>Portretas</h4>
+                <p>Juodai balta fotografija</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item">
+            <div class="portfolio-wrap">
+              <img src="assets/img/portfolio-3.jpeg" class="img-fluid" alt="Žygio akimirka kalnuose">
+              <div class="portfolio-info">
+                <h4>Gamta</h4>
+                <p>Žygis kalnuose</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- /Portfolio Section -->
+
+    <!-- Services / Media Section (Papildoma užduotis) -->
+    <section id="services" class="services section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Medija</h2>
+          <p>8 LD papildoma užduotis: video failas, YouTube ir audio.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-4">
+            <div class="icon-box w-100">
+              <h4>Video (failas)</h4>
+              <video width="100%" controls preload="metadata">
+                <source src="assets/media/computer.mp4" type="video/mp4" />
+                Jūsų naršyklė nepalaiko video formato.
+              </video>
+            </div>
+          </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-4">
+            <div class="icon-box w-100">
+              <h4>YouTube</h4>
+              <iframe width="100%" height="215"
+              src="https://www.youtube.com/embed/BoUVIhtqjAw?si=OhGklVtyB6rZvHMY"
+              title="Dirbtinis intelektas sporte" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-4">
+            <div class="icon-box w-100">
+              <h4>Audio</h4>
+              <audio controls style="width: 100%">
+                <source src="assets/media/tick.mp3" type="audio/mpeg" />
+                Jūsų naršyklė nepalaiko garso formato.
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /Services Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Kontaktai</h2>
+        </div>
+
+        <div class="info">
+          <p><i class="bi bi-geo-alt"></i> Vilnius, Lietuva</p>
+          <p><i class="bi bi-envelope"></i> vaidile18@gmail.com</p>
+          <p><i class="bi bi-phone"></i> +370 620 72363</p>
+        </div>
+      </div>
+    </section>
+    <!-- /Contact Section -->
+
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer light-background">
+    <div class="container">
+      <div class="copyright text-center">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Vaidilė</strong> <span>Visos teisės saugomos</span></p>
+      </div>
+      <div class="social-links d-flex justify-content-center">
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="credits">
+        Dizainas pagal <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+  <!-- /Footer -->
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
-<!-- PAPILDOMA UŽDUOTIS -->
-
-<h3>Papildoma užduotis</h3>
-
-<!-- Numeruotas sąrašas su <strong> ir <b> -->
-<ol>
-  <li><strong>Artificial intelligence</strong></li>
-  <li><b>Internet of Things</b></li>
-  <li>Car electronics</li>
-</ol>
-<!--
-<strong> – pabrėžia semantiškai svarbų tekstą (naršyklės ir skaitytuvai supranta, kad tai svarbu)
-<b> – tik paryškina vizualiai, be semantinės reikšmės
--->
-
-<!-- Nenumeruotas sąrašas su <em> ir <i> -->
-<ul>
-  <li><em>Python</em></li>
-  <li><i>JavaScript</i></li>
-  <li>ESP32 programming</li>
-</ul>
-<!--
-<em> – pasviras tekstas su semantine reikšme (pabrėžia emociją / svarbą)
-<i> – tik pasviras vizualiai, be reikšmės
--->
-
-<!-- Pabraukta pastraipa -->
-<u><p>This paragraph is underlined, but such formatting can be misleading because it looks like a hyperlink.</p></u>
-<!--
-<u> – pabraukimas gali klaidinti, nes atrodo kaip nuoroda
--->
