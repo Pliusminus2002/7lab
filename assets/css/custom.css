@@ -1,0 +1,129 @@
+
+:root{
+  --brand: lab(25.67% 58.43 -73.09);        /* pagr. akcentas */
+  --brand-2: hsl(180, 73%, 34%);      /* antras akcentas */
+  --text: oklch(72.007% 0.22247 139.105);         /* tekstas */
+  --muted: hsl(215, 73%, 36%);        /* prigesintas */
+  --bg: oklab(22.898% -0.05385 0.04422 / 0.919);           /* fonas */
+  --bg-soft: hsl(203, 80%, 40%);      /* švelnus fonas sekcijoms */
+  --radius: 16px;          /* kampų užapvalinimas */
+  --shadow: 0 10px 24px lab(48.5% 24.44 -15.68 / 0.689); /* šešėlis */
+  --space-section: 64px;   /* sekcijų tarpai */
+  --container: 1100px;     /* maksimalus plotis */
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-head: "Playfair Display", serif;
+}
+
+/* =========================
+   BAZĖ
+   ========================= */
+*{ box-sizing: border-box; }
+html,body{ margin:0; padding:0; background: var(--bg); color: var(--text); }
+body{ font: 16px/1.75 var(--font-body); }
+img{ max-width:100%; display:block; }
+
+/* Konteineris ir sekcijos */
+.container{ width:min(92%, var(--container)); margin-inline:auto; }
+.section{ padding: var(--space-section) 0; }
+.mt{ margin-top: 1rem; }
+.small{ font-size: .875rem; }
+
+/* Antraštės – tipografija (9 LD 2.a–c) */
+h1,h2,h3,h4,h5,h6{
+  font-family: var(--font-head); line-height:1.2; margin:0 0 .6rem 0; letter-spacing:.2px; color: var(--text);
+}
+h1{ font-size: clamp(32px, 4.2vw, 50px); font-weight:800; }
+h2{ font-size: clamp(26px, 3.2vw, 40px); font-weight:800; }
+h3{ font-size: clamp(20px, 2.4vw, 28px); font-weight:700; }
+h4{ font-size: 20px; font-weight:700; }
+p{ margin:.4rem 0 1rem; }
+.text-muted{ color: var(--muted); }
+
+/* Sekcijų pavadinimo pabraukimas */
+.section h2{ position:relative; display:inline-block; padding-bottom:.35rem; }
+.section h2::after{
+  content:""; position:absolute; left:0; bottom:0; width:64px; height:3px;
+  background: linear-gradient(90deg,var(--brand),var(--brand-2));
+  border-radius: 4px;
+}
+
+/* Tinkliniai išdėstymai */
+.grid-2{ display:grid; grid-template-columns: repeat(2,1fr); gap:20px; }
+.grid-3{ display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
+@media (max-width: 900px){ .grid-3{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px){ .grid-2,.grid-3{ grid-template-columns: 1fr; } }
+
+/* Kortelės (4.b: border, radius, shadow) */
+.card{
+  background:lab(88.82% 0 -0.01); border:1px solid lab(37.91% -4.54 -30.95); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 18px 22px;
+}
+.card .item + .item{ margin-top: .75rem; }
+.card-img{ padding:0; overflow:hidden; }
+.card-img img{ aspect-ratio: 4/3; object-fit: cover; }
+.card-img figcaption{ padding:12px 14px; }
+
+/* Nuorodos ir mygtukai (3.a–c) */
+a{ color: var(--brand); text-decoration:none; position:relative; transition: color .15s ease; }
+a:hover{ color:#4c2ca5; }
+a::after{
+  content:""; position:absolute; left:0; right:0; margin:auto; bottom:-2px; height:2px; width:0;
+  background: linear-gradient(90deg,var(--brand),var(--brand-2)); transition: width .18s ease;
+}
+a:hover::after{ width:100%; }
+a:active{ color:#3b228f; }
+a:focus-visible{ outline:2px dashed var(--brand-2); outline-offset:3px; }
+
+.btn{
+  display:inline-block; padding:.8rem 1.25rem; border-radius:999px; color:#fff;
+  background: linear-gradient(90deg,var(--brand),var(--brand-2));
+  box-shadow: 0 10px 20px rgba(0,0,0,.12); font-weight:600; letter-spacing:.2px;
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn:hover{ transform: translateY(-2px); filter:brightness(1.05); box-shadow:0 14px 26px rgba(0,0,0,.18); }
+.btn:active{ transform: translateY(1px) scale(.98); box-shadow:0 6px 14px rgba(0,0,0,.18) inset; }
+.btn:focus-visible{ outline:none; box-shadow:0 0 0 .22rem rgba(107,70,193,.35), 0 10px 20px rgba(0,0,0,.12); }
+.btn-outline{ border:2px solid var(--brand); color:var(--brand); background:transparent; }
+.btn-outline:hover{ color:hwb(0 100% 0%); background: linear-gradient(90deg,var(--brand),var(--brand-2)); border-color:transparent; }
+
+/* Navigacija viršuje */
+.nav{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
+.nav .brand{ font-family: var(--font-head); font-weight:800; font-size:22px; }
+.nav a{ margin-left:16px; }
+.nav a.active::after{ width:60%; }
+
+/* HERO (šviesesnis, be juodo filtro) */
+.hero{ position:relative; min-height: 60vh; display:grid; place-items:center; }
+.hero > img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter: brightness(1.1) contrast(1.05) saturate(1.1); }
+.hero::before{ content:""; position:absolute; inset:0; background: rgb(0, 0, 0); } /* keisk skaidrumą */
+.hero-inner{ position:relative; text-align:center; color:hwb(86 5% 52%); text-shadow:0 2px 10px rgba(0,0,0,.25); }
+
+/* Sąrašai (papildoma užduotis 1) */
+ol.countered{ counter-reset: step; list-style:none; padding-left:0; }
+ol.countered li{ counter-increment: step; position:relative; padding-left:3rem; margin:.4rem 0; }
+ol.countered li::before{
+  content: counter(step, decimal-leading-zero) ".";
+  position:absolute; left:0; top:0; color: var(--brand); font-weight:800;
+}
+ul.dashed{ list-style:none; padding-left:0; }
+ul.dashed li{ position:relative; padding-left:1.2rem; margin:.3rem 0; }
+ul.dashed li::before{ content:"–"; position:absolute; left:0; color:var(--brand-2); font-weight:700; }
+
+/* Lentelė (papildoma užduotis 2) */
+.table-wrap{ overflow:auto; }
+.table-services{
+  width:100%; border-collapse:separate; border-spacing:0; border:1px solid #eef2f7; border-radius:16px; overflow:hidden;
+  box-shadow: var(--shadow); background:#fff;
+}
+.table-services thead th{
+  text-align:center; background: linear-gradient(90deg,#f6f7fb,#eef2ff);
+  font-weight:700; padding:.85rem .9rem; border-bottom:1px solid #e6e9f2;
+}
+.table-services tbody td{ padding:.9rem .9rem; vertical-align: middle; }
+.table-services tbody tr:nth-child(odd){ background:#fbfcff; }
+.table-services tbody tr:hover{ background:#f2f7ff; }
+.table-services td:nth-child(3), .table-services td:nth-child(4){ text-align:center; }
+
+/* Pora universalų */
+.footer{ padding:28px 0; background: var(--bg-soft); text-align:center; color: var(--muted); }
