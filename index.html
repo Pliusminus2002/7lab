@@ -10,10 +10,16 @@
   <!-- Šriftai (Google Fonts) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
 
-  <!-- MŪSŲ stilius su kintamaisiais (jau turi) -->
+  <!-- MŪSŲ stilius su kintamaisiais -->
   <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
+  <!-- PAGE PRELOADER (Kvadratų šokis) -->
+  <div id="preloader">
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+  </div>
 
   <!-- Paprasta navigacija -->
   <header class="container nav">
@@ -40,7 +46,15 @@
 
   <!-- APIE -->
   <section id="about" class="section">
-    <div class="container card">
+    <div class="container card about-card">
+
+      <!-- ŠOKANČIOS FIGŪROS SU VEIDUKAIS -->
+      <div class="about-shapes">
+        <div class="shape smile smile-circle">: )</div>
+        <div class="shape smile smile-square">: )</div>
+        <div class="shape smile smile-small">: )</div>
+      </div>
+
       <h2>Apie mane</h2>
       <p>
         Esu motyvuota, greitai besimokanti ir kūrybiška. Studijuoju Dirbtinio intelekto sistemas Vilnius Tech universitete. 
@@ -50,7 +64,6 @@
         Sportuoju (jojimas, snieglentės, crossfit, vandens sportas), fotografuoju, domiuosi menu.
       </p>
 
-      <!-- Sąrašai (LD papildoma užduotis) -->
       <h3>Mano tikslai</h3>
       <ol class="countered">
         <li>Išmokti Python AI bibliotekas
@@ -103,8 +116,8 @@
     </div>
   </section>
 
-  <!-- MEDIJA -->
-  <section id="media" class="section">
+  <!-- MEDIJA / PASLAUGOS -->
+  <section id="media" class="section section-services">
     <div class="container">
       <h2>Medija</h2>
       <div class="grid-3">
@@ -188,6 +201,8 @@
     <div class="container small">© <span id="y"></span> Vaidilė Dubickaitė</div>
   </footer>
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

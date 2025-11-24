@@ -127,3 +127,281 @@ ul.dashed li::before{ content:"–"; position:absolute; left:0; color:var(--bran
 
 /* Pora universalų */
 .footer{ padding:28px 0; background: var(--bg-soft); text-align:center; color: var(--muted); }
+/* ==== 1 ANIMACIJA: SEKCIJŲ FADE-IN ==== */
+
+section.section {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+/* Lengvas uždelsimas skirtingoms sekcijoms (nebūtina, bet gražu) */
+section.section:nth-of-type(2) {
+  animation-delay: 0.1s;
+}
+
+section.section:nth-of-type(3) {
+  animation-delay: 0.2s;
+}
+
+section.section:nth-of-type(4) {
+  animation-delay: 0.3s;
+}
+
+section.section:nth-of-type(5) {
+  animation-delay: 0.4s;
+}
+
+/* Pati @keyframes animacija */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ==== 2 ANIMACIJA: KORTELIŲ PLAUKIOJIMAS ==== */
+
+.card {
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+/* Kad ne visos judėtų vienodai */
+.grid-3 .card:nth-child(2),
+.grid-2 .card:nth-child(2) {
+  animation-delay: 0.7s;
+}
+
+.grid-3 .card:nth-child(3) {
+  animation-delay: 1.4s;
+}
+
+/* @keyframes apibrėžimas */
+@keyframes floatCard {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+/* ===========================
+   🔵 PAGE PRELOADER (Tik CSS)
+   =========================== */
+
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: #0b1120;           /* tamsus fonas (gali keisti) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+  animation: hidePreloader 0.7s ease-out 1.8s forwards; 
+  /* 1.8s rodome, 0.7s išnyksta */
+}
+/* ================================
+   🔶 KVADRATŲ ŠOKIS – PRELOADER
+   ================================= */
+
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: #111827;   /* Tamsus fonas */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+  animation: hidePreloader 0.7s ease-out 2.2s forwards;
+  /* 2.2s rodome animaciją, 0.7s slepiame */
+}
+
+/* Kvadrato stilius */
+#preloader .square {
+  width: 22px;
+  height: 22px;
+  background: #990ad6;   /* Žalia (galima keisti) */
+  animation: jump 0.6s infinite ease-in-out;
+}
+
+/* Visi square gauna atidėjimą */
+#preloader .square:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+#preloader .square:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Šokinėjimo animacija */
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+/* Preloaderio išnykimas */
+@keyframes hidePreloader {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+/* ==========================================
+   🎛 PREFERS-REDUCED-MOTION – MAŽIAU JUDESIO
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Bendras taisyklių supaprastinimas */
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Visi mūsų sukurti judantys elementai – be animacijų */
+  section.section,
+  .card,
+  #preloader .square {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Preloaderio visai nerodome (iškart paslėptas) */
+  #preloader {
+    animation: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
+/* ==================================
+   🎨 ANIMUOTAS GRADIENTAS PASLAUGOMS
+   ================================== */
+
+.section-services {
+  position: relative;
+  overflow: hidden;
+  color: #f3f4f6; /* Šviesus tekstas ant tamsaus fono */
+}
+
+/* Gradientinis fonas (pseudelementas) */
+.section-services::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(120deg, hsl(239, 88%, 44%), #ec4899, lab(22.94% -27.42 16.98));
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0.9;
+  animation: gradientMove 12s ease-in-out infinite;
+}
+
+/* Kad turinys būtų virš gradientinio fono */
+.section-services > .container {
+  position: relative;
+}
+
+/* ANIMACIJA – fono judėjimas */
+@keyframes gradientMove {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-20%, -15%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+/* =================================
+   🤸‍♀️ FIGŪROS FONE „APIE“
+   ================================= */
+
+#about {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Kortelė turi būti virš figūrų */
+.about-card {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dvi figūros fone – circle + square */
+.about-card::before,
+.about-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;       /* labai svarbu: už kortelės turinio */
+  opacity: 0.35;     /* permatomos, netrukdo tekstui */
+}
+
+/* Didelis apskritimas kairėje viršuje */
+.about-card::before {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: #ff6bcb;          /* PASIKEISI SPALVĄ KADA NORĖSI */
+  top: -80px;
+  left: -60px;
+  animation: aboutCircle 14s ease-in-out infinite;
+}
+
+/* Apvalainas kvadratas dešinėje apačioje */
+.about-card::after {
+  width: 180px;
+  height: 180px;
+  border-radius: 40px;
+  background: #38bdf8;          /* PASIKEISI SPALVĄ KADA NORĖSI */
+  bottom: -60px;
+  right: -40px;
+  animation: aboutSquare 16s ease-in-out infinite;
+}
+
+/* Apskritimo animacija – plaukioja ir šiek tiek didėja/mažėja */
+@keyframes aboutCircle {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(18px, 12px) scale(1.06);
+  }
+  50% {
+    transform: translate(10px, 32px) scale(0.97);
+  }
+  75% {
+    transform: translate(-12px, 8px) scale(1.03);
+  }
+}
+
+/* Kvadrato animacija – plaukioja ir truputį sukasi */
+@keyframes aboutSquare {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-20px, -14px) rotate(-4deg);
+  }
+  50% {
+    transform: translate(12px, 20px) rotate(3deg);
+  }
+  75% {
+    transform: translate(-8px, 6px) rotate(-2deg);
+  }
+}
