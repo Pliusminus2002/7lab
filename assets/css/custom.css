@@ -1,639 +1,317 @@
+// =======================================
+// 11 LAB – KONTAKTŲ FORMA
+// =======================================
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contact-form");
+  if (!form) return; // jei šiame puslapyje nėra formos – nieko nedarom
 
-:root{
-  --brand: lab(25.67% 58.43 -73.09);        /* pagr. akcentas */
-  --brand-2: hsl(180, 73%, 34%);      /* antras akcentas */
-  --text: oklch(72.007% 0.22247 139.105);         /* tekstas */
-  --muted: hsl(215, 73%, 36%);        /* prigesintas */
-  --bg: oklab(22.898% -0.05385 0.04422 / 0.919);           /* fonas */
-  --bg-soft: hsl(203, 80%, 40%);      /* švelnus fonas sekcijoms */
-  --radius: 16px;          /* kampų užapvalinimas */
-  --shadow: 0 10px 24px lab(48.5% 24.44 -15.68 / 0.689); /* šešėlis */
-  --space-section: 64px;   /* sekcijų tarpai */
-  --container: 1100px;     /* maksimalus plotis */
-  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --font-head: "Playfair Display", serif;
-}
+  const resultBox = document.getElementById("form-result");
+  const avgBox = document.getElementById("avg-result");
+  const popup = document.getElementById("form-popup");
+  const popupText = popup ? popup.querySelector(".popup-text") : null;
+  const popupClose = document.getElementById("popup-close");
 
-/* =========================
-   BAZĖ
-   ========================= */
-*{ box-sizing: border-box; }
-html,body{ margin:0; padding:0; background: var(--bg); color: var(--text); }
-body{ font: 16px/1.75 var(--font-body); }
-img{ max-width:100%; display:block; }
-
-/* Konteineris ir sekcijos */
-.container{ width:min(92%, var(--container)); margin-inline:auto; }
-.section{ padding: var(--space-section) 0; }
-.mt{ margin-top: 1rem; }
-.small{ font-size: .875rem; }
-
-/* Antraštės – tipografija (9 LD 2.a–c) */
-h1,h2,h3,h4,h5,h6{
-  font-family: var(--font-head); line-height:1.2; margin:0 0 .6rem 0; letter-spacing:.2px; color: var(--text);
-}
-h1{ font-size: clamp(32px, 4.2vw, 50px); font-weight:800; }
-h2{ font-size: clamp(26px, 3.2vw, 40px); font-weight:800; }
-h3{ font-size: clamp(20px, 2.4vw, 28px); font-weight:700; }
-h4{ font-size: 20px; font-weight:700; }
-p{ margin:.4rem 0 1rem; }
-.text-muted{ color: var(--muted); }
-
-/* Sekcijų pavadinimo pabraukimas */
-.section h2{ position:relative; display:inline-block; padding-bottom:.35rem; }
-.section h2::after{
-  content:""; position:absolute; left:0; bottom:0; width:64px; height:3px;
-  background: linear-gradient(90deg,var(--brand),var(--brand-2));
-  border-radius: 4px;
-}
-
-/* Tinkliniai išdėstymai */
-.grid-2{ display:grid; grid-template-columns: repeat(2,1fr); gap:20px; }
-.grid-3{ display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
-@media (max-width: 900px){ .grid-3{ grid-template-columns: 1fr 1fr; } }
-@media (max-width: 640px){ .grid-2,.grid-3{ grid-template-columns: 1fr; } }
-
-/* Kortelės (4.b: border, radius, shadow) */
-.card{
-  background:lab(88.82% 0 -0.01); border:1px solid lab(37.91% -4.54 -30.95); border-radius: var(--radius);
-  box-shadow: var(--shadow); padding: 18px 22px;
-}
-.card .item + .item{ margin-top: .75rem; }
-.card-img{ padding:0; overflow:hidden; }
-.card-img img{ aspect-ratio: 4/3; object-fit: cover; }
-.card-img figcaption{ padding:12px 14px; }
-
-/* Nuorodos ir mygtukai (3.a–c) */
-a{ color: var(--brand); text-decoration:none; position:relative; transition: color .15s ease; }
-a:hover{ color:#4c2ca5; }
-a::after{
-  content:""; position:absolute; left:0; right:0; margin:auto; bottom:-2px; height:2px; width:0;
-  background: linear-gradient(90deg,var(--brand),var(--brand-2)); transition: width .18s ease;
-}
-a:hover::after{ width:100%; }
-a:active{ color:#3b228f; }
-a:focus-visible{ outline:2px dashed var(--brand-2); outline-offset:3px; }
-
-.btn{
-  display:inline-block; padding:.8rem 1.25rem; border-radius:999px; color:#fff;
-  background: linear-gradient(90deg,var(--brand),var(--brand-2));
-  box-shadow: 0 10px 20px rgba(0,0,0,.12); font-weight:600; letter-spacing:.2px;
-  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
-}
-.btn:hover{ transform: translateY(-2px); filter:brightness(1.05); box-shadow:0 14px 26px rgba(0,0,0,.18); }
-.btn:active{ transform: translateY(1px) scale(.98); box-shadow:0 6px 14px rgba(0,0,0,.18) inset; }
-.btn:focus-visible{ outline:none; box-shadow:0 0 0 .22rem rgba(107,70,193,.35), 0 10px 20px rgba(0,0,0,.12); }
-.btn-outline{ border:2px solid var(--brand); color:var(--brand); background:transparent; }
-.btn-outline:hover{ color:hwb(0 100% 0%); background: linear-gradient(90deg,var(--brand),var(--brand-2)); border-color:transparent; }
-
-/* Navigacija viršuje */
-.nav{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
-.nav .brand{ font-family: var(--font-head); font-weight:800; font-size:22px; }
-.nav a{ margin-left:16px; }
-.nav a.active::after{ width:60%; }
-
-/* HERO (šviesesnis, be juodo filtro) */
-.hero{ position:relative; min-height: 60vh; display:grid; place-items:center; }
-.hero > img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-  filter: brightness(1.1) contrast(1.05) saturate(1.1); }
-.hero::before{ content:""; position:absolute; inset:0; background: rgb(0, 0, 0); } /* keisk skaidrumą */
-.hero-inner{ position:relative; text-align:center; color:hwb(86 5% 52%); text-shadow:0 2px 10px rgba(0,0,0,.25); }
-
-/* Sąrašai (papildoma užduotis 1) */
-ol.countered{ counter-reset: step; list-style:none; padding-left:0; }
-ol.countered li{ counter-increment: step; position:relative; padding-left:3rem; margin:.4rem 0; }
-ol.countered li::before{
-  content: counter(step, decimal-leading-zero) ".";
-  position:absolute; left:0; top:0; color: var(--brand); font-weight:800;
-}
-ul.dashed{ list-style:none; padding-left:0; }
-ul.dashed li{ position:relative; padding-left:1.2rem; margin:.3rem 0; }
-ul.dashed li::before{ content:"–"; position:absolute; left:0; color:var(--brand-2); font-weight:700; }
-
-/* Lentelė (papildoma užduotis 2) */
-.table-wrap{ overflow:auto; }
-.table-services{
-  width:100%; border-collapse:separate; border-spacing:0; border:1px solid #eef2f7; border-radius:16px; overflow:hidden;
-  box-shadow: var(--shadow); background:#fff;
-}
-.table-services thead th{
-  text-align:center; background: linear-gradient(90deg,#f6f7fb,#eef2ff);
-  font-weight:700; padding:.85rem .9rem; border-bottom:1px solid #e6e9f2;
-}
-.table-services tbody td{ padding:.9rem .9rem; vertical-align: middle; }
-.table-services tbody tr:nth-child(odd){ background:#fbfcff; }
-.table-services tbody tr:hover{ background:#f2f7ff; }
-.table-services td:nth-child(3), .table-services td:nth-child(4){ text-align:center; }
-
-/* Pora universalų */
-.footer{ padding:28px 0; background: var(--bg-soft); text-align:center; color: var(--muted); }
-/* ==== 1 ANIMACIJA: SEKCIJŲ FADE-IN ==== */
-
-section.section {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.7s ease-out forwards;
-}
-
-/* Lengvas uždelsimas skirtingoms sekcijoms (nebūtina, bet gražu) */
-section.section:nth-of-type(2) {
-  animation-delay: 0.1s;
-}
-
-section.section:nth-of-type(3) {
-  animation-delay: 0.2s;
-}
-
-section.section:nth-of-type(4) {
-  animation-delay: 0.3s;
-}
-
-section.section:nth-of-type(5) {
-  animation-delay: 0.4s;
-}
-
-/* Pati @keyframes animacija */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* ==== 2 ANIMACIJA: KORTELIŲ PLAUKIOJIMAS ==== */
-
-.card {
-  animation: floatCard 6s ease-in-out infinite;
-}
-
-/* Kad ne visos judėtų vienodai */
-.grid-3 .card:nth-child(2),
-.grid-2 .card:nth-child(2) {
-  animation-delay: 0.7s;
-}
-
-.grid-3 .card:nth-child(3) {
-  animation-delay: 1.4s;
-}
-
-/* @keyframes apibrėžimas */
-@keyframes floatCard {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-/* ===========================
-   🔵 PAGE PRELOADER (Tik CSS)
-   =========================== */
-
-#preloader {
-  position: fixed;
-  inset: 0;
-  background: #0b1120;           /* tamsus fonas (gali keisti) */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 1;
-  visibility: visible;
-  animation: hidePreloader 0.7s ease-out 1.8s forwards; 
-  /* 1.8s rodome, 0.7s išnyksta */
-}
-/* ================================
-   🔶 KVADRATŲ ŠOKIS – PRELOADER
-   ================================= */
-
-#preloader {
-  position: fixed;
-  inset: 0;
-  background: #111827;   /* Tamsus fonas */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  z-index: 9999;
-  opacity: 1;
-  visibility: visible;
-  animation: hidePreloader 0.7s ease-out 2.2s forwards;
-  /* 2.2s rodome animaciją, 0.7s slepiame */
-}
-
-/* Kvadrato stilius */
-#preloader .square {
-  width: 22px;
-  height: 22px;
-  background: #990ad6;   /* Žalia (galima keisti) */
-  animation: jump 0.6s infinite ease-in-out;
-}
-
-/* Visi square gauna atidėjimą */
-#preloader .square:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-#preloader .square:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-/* Šokinėjimo animacija */
-@keyframes jump {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-18px);
-  }
-}
-
-/* Preloaderio išnykimas */
-@keyframes hidePreloader {
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-/* ==========================================
-   🎛 PREFERS-REDUCED-MOTION – MAŽIAU JUDESIO
-   ========================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  /* Bendras taisyklių supaprastinimas */
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  function calculateAverage(q1, q2, q3) {
+    return (q1 + q2 + q3) / 3;
   }
 
-  /* Visi mūsų sukurti judantys elementai – be animacijų */
-  section.section,
-  .card,
-  #preloader .square {
-    animation: none !important;
-    transform: none !important;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // neleidžiam puslapiui persikrauti
+
+    const data = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      address: form.address.value.trim(),
+      q1: Number(form.q1.value),
+      q2: Number(form.q2.value),
+      q3: Number(form.q3.value),
+    };
+
+    if (!data.firstName || !data.lastName || !data.email) {
+      alert("Prašau užpildyti vardą, pavardę ir el. paštą.");
+      return;
+    }
+
+    console.log("Kontaktų formos duomenys:", data);
+
+    if (resultBox) {
+      resultBox.innerHTML = `
+        <strong>Vardas:</strong> ${data.firstName}<br>
+        <strong>Pavardė:</strong> ${data.lastName}<br>
+        <strong>El. paštas:</strong> 
+          <a href="mailto:${data.email}">${data.email}</a><br>
+        <strong>Tel. numeris:</strong> ${data.phone || "–"}<br>
+        <strong>Adresas:</strong> ${data.address || "–"}<br>
+        <strong>Vertinimai (1–10):</strong> ${data.q1}, ${data.q2}, ${data.q3}
+      `;
+    }
+
+    const avg = calculateAverage(data.q1, data.q2, data.q3);
+    if (avgBox) {
+      avgBox.textContent = `${data.firstName} ${data.lastName}: vidurkis ${avg.toFixed(1)}`;
+    }
+
+    if (popup && popupText) {
+      popupText.textContent = "Duomenys pateikti sėkmingai!";
+      popup.style.display = "flex";
+    }
+  });
+
+  if (popupClose && popup) {
+    popupClose.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+  }
+});
+
+
+// =======================================
+// 12 LAB – MANO ŽAIDIMAS + PAPILDOMA
+// =======================================
+document.addEventListener("DOMContentLoaded", () => {
+  const board = document.getElementById("game-board");
+  const movesEl = document.getElementById("game-moves");
+  const pairsEl = document.getElementById("game-pairs");
+  const timeEl = document.getElementById("game-time");
+  const msgEl = document.getElementById("game-message");
+  const startBtn = document.getElementById("game-start");
+  const resetBtn = document.getElementById("game-reset");
+  const diffButtons = document.querySelectorAll(".game-diff-btn");
+  const bestEasyEl = document.getElementById("best-easy");
+  const bestHardEl = document.getElementById("best-hard");
+
+  // jei šiame puslapyje nėra žaidimo – iškart išeinam
+  if (!board || !startBtn) return;
+
+  const icons = ["💻", "🤖", "⚙️", "🚀", "📚", "🎧", "🧠", "💡", "🔋", "🌌", "🎮", "📷"];
+
+  let difficulty = "easy";
+  let cards = [];
+  let opened = [];
+  let lockBoard = false;
+  let moves = 0;
+  let matchedPairs = 0;
+  let totalPairs = 0;
+
+  // laikmatis
+  let timerId = null;
+  let elapsedSec = 0;
+
+  const LS_KEY_EASY = "memoryGameBest_easy";
+  const LS_KEY_HARD = "memoryGameBest_hard";
+
+  // ====== TIMERIS ======
+  function updateTimeUI() {
+    if (!timeEl) return;
+    const m = Math.floor(elapsedSec / 60);
+    const s = elapsedSec % 60;
+    timeEl.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   }
 
-  /* Preloaderio visai nerodome (iškart paslėptas) */
-  #preloader {
-    animation: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-}
-
-/* ==================================
-   🎨 ANIMUOTAS GRADIENTAS PASLAUGOMS
-   ================================== */
-
-.section-services {
-  position: relative;
-  overflow: hidden;
-  color: #f3f4f6; /* Šviesus tekstas ant tamsaus fono */
-}
-
-/* Gradientinis fonas (pseudelementas) */
-.section-services::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: linear-gradient(120deg, hsl(239, 88%, 44%), #ec4899, lab(22.94% -27.42 16.98));
-  background-size: 200% 200%;
-  z-index: -1;
-  opacity: 0.9;
-  animation: gradientMove 12s ease-in-out infinite;
-}
-
-/* Kad turinys būtų virš gradientinio fono */
-.section-services > .container {
-  position: relative;
-}
-
-/* ANIMACIJA – fono judėjimas */
-@keyframes gradientMove {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-20%, -15%, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-/* =================================
-   🤸‍♀️ FIGŪROS FONE „APIE“
-   ================================= */
-
-#about {
-  position: relative;
-  overflow: hidden;
-}
-
-/* Kortelė turi būti virš figūrų */
-.about-card {
-  position: relative;
-  z-index: 1;
-}
-
-/* Dvi figūros fone – circle + square */
-.about-card::before,
-.about-card::after {
-  content: "";
-  position: absolute;
-  z-index: -1;       /* labai svarbu: už kortelės turinio */
-  opacity: 0.35;     /* permatomos, netrukdo tekstui */
-}
-
-/* Didelis apskritimas kairėje viršuje */
-.about-card::before {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: #ff6bcb;          /* PASIKEISI SPALVĄ KADA NORĖSI */
-  top: -80px;
-  left: -60px;
-  animation: aboutCircle 14s ease-in-out infinite;
-}
-
-/* Apvalainas kvadratas dešinėje apačioje */
-.about-card::after {
-  width: 180px;
-  height: 180px;
-  border-radius: 40px;
-  background: #38bdf8;          /* PASIKEISI SPALVĄ KADA NORĖSI */
-  bottom: -60px;
-  right: -40px;
-  animation: aboutSquare 16s ease-in-out infinite;
-}
-
-/* Apskritimo animacija – plaukioja ir šiek tiek didėja/mažėja */
-@keyframes aboutCircle {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(18px, 12px) scale(1.06);
-  }
-  50% {
-    transform: translate(10px, 32px) scale(0.97);
-  }
-  75% {
-    transform: translate(-12px, 8px) scale(1.03);
-  }
-}
-
-/* Kvadrato animacija – plaukioja ir truputį sukasi */
-@keyframes aboutSquare {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(-20px, -14px) rotate(-4deg);
-  }
-  50% {
-    transform: translate(12px, 20px) rotate(3deg);
-  }
-  75% {
-    transform: translate(-8px, 6px) rotate(-2deg);
-  }
-}
-/* ===========================
-   11 LAB – KONTAKTŲ FORMA
-   =========================== */
-
-.contact-form {
-  margin-top: 0.75rem;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.contact-form .form-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.contact-form label {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form input[type="tel"],
-.contact-form input[type="range"] {
-  padding: 0.4rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: lab(96% 0 0.01);
-  font: inherit;
-}
-
-.contact-form input[type="range"] {
-  padding: 0;
-}
-
-/* Slider eilutė (range + skaičiukas šone) */
-.slider-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.badge-value {
-  min-width: 2.2rem;
-  text-align: center;
-  border-radius: 999px;
-  padding: 0.2rem 0.6rem;
-  background: var(--bg-soft);
-  color: #f9fafb;
-  font-weight: 600;
-}
-
-/* Rezultatų blokai */
-.form-result {
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
-  background: lab(94% 0 0.01);
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  font-size: 0.9rem;
-}
-
-.form-avg {
-  font-weight: 600;
-}
-
-/* Pop-up overlay */
-.form-popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.6);
-  display: none;                  /* JS įjungs display:flex */
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.form-popup .popup-inner {
-  background: lab(96% 0 0.01);
-  padding: 1.5rem 1.8rem;
-  border-radius: 18px;
-  box-shadow: var(--shadow);
-  max-width: 320px;
-  text-align: center;
-}
-/* ===========================
-   12 LAB – MANO ŽAIDIMAS
-   =========================== */
-
-.game-section {
-  position: relative;
-}
-
-.game-controls {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 0.75rem;
-}
-
-.game-difficulty {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-}
-
-.btn-sm {
-  padding: 0.35rem 0.8rem;
-  font-size: 0.8rem;
-}
-
-.game-stats {
-  font-size: 0.9rem;
-  display: grid;
-  gap: 0.25rem;
-}
-
-.game-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-/* Lenta */
-.game-board {
-  margin-top: 1rem;
-  display: grid;
-  gap: 0.6rem;
-  justify-content: center;
-}
-
-/* 4x3 ir 6x4 išdėstymas */
-.game-board.easy {
-  grid-template-columns: repeat(4, minmax(0, 80px));
-}
-
-.game-board.hard {
-  grid-template-columns: repeat(6, minmax(0, 70px));
-}
-
-/* Kortelės */
-.game-card {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 12px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  background: linear-gradient(135deg, var(--bg-soft), #020617);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  color: #f9fafb;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.4);
-}
-
-.game-card span {
-  pointer-events: none;
-}
-
-/* paslėpta kortelė – rodom klaustuką */
-.game-card.hidden span {
-  opacity: 0;
-}
-
-.game-card.hidden::after {
-  content: "?";
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.9rem;
-  color: #e5e7eb;
-}
-
-/* atversta */
-.game-card.flipped {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.6);
-}
-
-/* sutapusi pora */
-.game-card.matched {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: #052e16;
-  cursor: default;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.6);
-}
-
-/* išjungtas mygtukas */
-.btn.disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* pranešimas */
-.game-message {
-  margin-top: 0.75rem;
-}
-
-/* mažiems ekranams */
-@media (max-width: 800px) {
-  .game-controls {
-    grid-template-columns: 1fr;
-    align-items: flex-start;
+  function startTimer() {
+    stopTimer();
+    elapsedSec = 0;
+    updateTimeUI();
+    timerId = setInterval(() => {
+      elapsedSec++;
+      updateTimeUI();
+    }, 1000);
   }
 
-  .game-board.easy {
-    grid-template-columns: repeat(3, minmax(0, 80px));
+  function stopTimer() {
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
   }
 
-  .game-board.hard {
-    grid-template-columns: repeat(4, minmax(0, 70px));
+  // ====== localStorage – geriausi rezultatai ======
+  function loadBest(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
   }
-}
-.game-best {
-  margin-top: 0.5rem;
-  display: grid;
-  gap: 0.15rem;
-}
 
-.game-best span {
-  font-variant-numeric: tabular-nums;
-}
+  function saveBest(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+
+  function formatBest(best) {
+    if (!best) return "–";
+    const m = Math.floor(best.time / 60);
+    const s = best.time % 60;
+    const timeStr = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    return `${best.moves} ėj., ${timeStr}`;
+  }
+
+  function refreshBestUI() {
+    if (bestEasyEl) bestEasyEl.textContent = formatBest(loadBest(LS_KEY_EASY));
+    if (bestHardEl) bestHardEl.textContent = formatBest(loadBest(LS_KEY_HARD));
+  }
+
+  refreshBestUI();
+
+  // ====== KORTELIŲ GENERAVIMAS ======
+  function generateCards() {
+    const pairCount = difficulty === "easy" ? 6 : 12; // easy: 6 poros, hard: 12 porų
+    const baseIcons = icons.slice(0, pairCount);
+    const temp = [];
+
+    baseIcons.forEach((sym) => {
+      temp.push({ symbol: sym });
+      temp.push({ symbol: sym });
+    });
+
+    for (let i = temp.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [temp[i], temp[j]] = [temp[j], temp[i]];
+    }
+
+    cards = temp;
+    totalPairs = pairCount;
+  }
+
+  function renderBoard() {
+    board.innerHTML = "";
+    board.classList.toggle("easy", difficulty === "easy");
+    board.classList.toggle("hard", difficulty === "hard");
+
+    cards.forEach((card, index) => {
+      const btn = document.createElement("button");
+      btn.className = "game-card hidden";
+      btn.dataset.index = index;
+      const span = document.createElement("span");
+      span.textContent = card.symbol;
+      btn.appendChild(span);
+      board.appendChild(btn);
+    });
+  }
+
+  function resetStats() {
+    moves = 0;
+    matchedPairs = 0;
+    opened = [];
+    lockBoard = false;
+    elapsedSec = 0;
+    if (movesEl) movesEl.textContent = "0";
+    if (pairsEl) pairsEl.textContent = "0";
+    updateTimeUI();
+  }
+
+  function startGame() {
+    resetStats();
+    generateCards();
+    renderBoard();
+    if (msgEl) msgEl.textContent = "Žaidimas pradėtas! Surask visas poras.";
+    startTimer(); // čia paleidžiam laikmatį
+  }
+
+  // ====== ŽAIDIMO LOGIKA ======
+  function onCardClick(e) {
+    const btn = e.target.closest(".game-card");
+    if (!btn || lockBoard) return;
+
+    const index = Number(btn.dataset.index);
+    if (btn.classList.contains("matched") || opened.includes(index)) return;
+
+    btn.classList.remove("hidden");
+    btn.classList.add("flipped");
+    opened.push(index);
+
+    if (opened.length === 2) {
+      checkMatch();
+    }
+  }
+
+  function checkMatch() {
+    lockBoard = true;
+    const [i1, i2] = opened;
+    const c1 = cards[i1];
+    const c2 = cards[i2];
+    moves++;
+    if (movesEl) movesEl.textContent = moves.toString();
+
+    const btn1 = board.querySelector(`.game-card[data-index="${i1}"]`);
+    const btn2 = board.querySelector(`.game-card[data-index="${i2}"]`);
+
+    if (c1.symbol === c2.symbol) {
+      matchedPairs++;
+      if (pairsEl) pairsEl.textContent = matchedPairs.toString();
+      if (btn1 && btn2) {
+        btn1.classList.add("matched");
+        btn1.classList.remove("flipped");
+        btn2.classList.add("matched");
+        btn2.classList.remove("flipped");
+      }
+      opened = [];
+      lockBoard = false;
+
+      if (matchedPairs === totalPairs) {
+        stopTimer();
+        if (msgEl) {
+          msgEl.textContent = `Laimėjote! Viską radote per ${moves} ėjimų per ${timeEl ? timeEl.textContent : ""}.`;
+        }
+
+        const current = { moves, time: elapsedSec };
+        const key = difficulty === "easy" ? LS_KEY_EASY : LS_KEY_HARD;
+        const best = loadBest(key);
+
+        let isBetter = false;
+        if (!best) isBetter = true;
+        else if (current.moves < best.moves) isBetter = true;
+        else if (current.moves === best.moves && current.time < best.time) isBetter = true;
+
+        if (isBetter) {
+          saveBest(key, current);
+          refreshBestUI();
+        }
+      }
+    } else {
+      if (msgEl) msgEl.textContent = "Nesutapo, bandyk dar kartą.";
+      setTimeout(() => {
+        if (btn1 && btn2) {
+          btn1.classList.add("hidden");
+          btn1.classList.remove("flipped");
+          btn2.classList.add("hidden");
+          btn2.classList.remove("flipped");
+        }
+        opened = [];
+        lockBoard = false;
+      }, 800);
+    }
+  }
+
+  // ====== EVENTAI ======
+  diffButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      diffButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      difficulty = btn.dataset.level === "hard" ? "hard" : "easy";
+      board.innerHTML = "";
+      if (msgEl) {
+        msgEl.textContent = `Pasirinktas lygis: ${
+          difficulty === "easy" ? "Lengvas (4×3)" : "Sunkus (6×4)"
+        }. Paspausk „Start“.`;
+      }
+    });
+  });
+
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      startGame();
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      startGame();
+    });
+  }
+
+  board.addEventListener("click", onCardClick);
+});
