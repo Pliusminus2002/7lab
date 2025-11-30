@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bestHardEl = document.getElementById("best-hard");
 
   // jei šiame puslapyje nėra žaidimo – išeinam
-  if (!board || !startBtn) return;
+  if (!board || !startBtn || !timeEl) return;
 
   // 2.a – duomenų rinkinys kortelėms
   const icons = ["💻", "🤖", "⚙️", "🚀", "📚", "🎧", "🧠", "💡", "🔋", "🌌", "🎮", "📷"];
@@ -34,57 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const LS_KEY_EASY = "memoryGameBest_easy";
   const LS_KEY_HARD = "memoryGameBest_hard";
 
-  // Pagal sugeneruotą masyvą atnaujina lentą
-  function renderBoard() {
-    board.innerHTML = "";
-    board.classList.toggle("easy", difficulty === "easy");
-    board.classList.toggle("hard", difficulty === "hard");
+  // ================= TIMERIS =================
 
-    cards.forEach((card, index) => {
-      const btn = document.createElement("button");
-      btn.className = "game-card hidden";
-      btn.dataset.index = index;
-      const span = document.createElement("span");
-      span.textContent = card.symbol;
-      btn.appendChild(span);
-      board.appendChild(btn);
-    });
-  }
-
-  // 2.b – sugeneruojam korteles pagal sunkumą
-  function generateCards() {
-    const pairCount = difficulty === "easy" ? 6 : 12; // 4x3=12 => 6 porų; 6x4=24 => 12 porų
-    const baseIcons = icons.slice(0, pairCount);
-
-    // sukurti po 2 korteles kiekvienam simboliui
-    const temp = [];
-    baseIcons.forEach((sym) => {
-      temp.push({ symbol: sym });
-      temp.push({ symbol: sym });
-    });
-
-    // išmaišom masyvą – Fisher–Yates
-    for (let i = temp.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [temp[i], temp[j]] = [temp[j], temp[i]];
-    }
-
-    cards = temp;
-    totalPairs = pairCount;
-  }
-
-  function resetStats() {
-    moves = 0;
-    matchedPairs = 0;
-    opened = [];
-    lockBoard = false;
-    elapsedSec = 0;
-    movesEl.textContent = "0";
-    pairsEl.textContent = "0";
-    updateTimeUI();
-  }
-
-  // Laikmatis
   function updateTimeUI() {
     const m = Math.floor(elapsedSec / 60);
     const s = elapsedSec % 60;
@@ -106,7 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // localStorage – geriausi rezultatai
+  // ================= localStorage GERIAUSIAS =================
+
   function loadBest(key) {
     try {
       const raw = localStorage.getItem(key);
@@ -133,27 +85,71 @@ document.addEventListener("DOMContentLoaded", () => {
     if (bestHardEl) bestHardEl.textContent = formatBest(loadBest(LS_KEY_HARD));
   }
 
-  // iškart parodom, jei jau yra rezultatai
   refreshBestUI();
 
-  // Start / Restart žaidimą su dabartiniu sunkumu
+  // ================= KORTELĖS / LENTA =================
+
+  function generateCards() {
+    const pairCount = difficulty === "easy" ? 6 : 12; // 4x3=12 => 6 porų; 6x4=24 => 12 porų
+    const baseIcons = icons.slice(0, pairCount);
+
+    const temp = [];
+    baseIcons.forEach((sym) => {
+      temp.push({ symbol: sym });
+      temp.push({ symbol: sym });
+    });
+
+    for (let i = temp.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [temp[i], temp[j]] = [temp[j], temp[i]];
+    }
+
+    cards = temp;
+    totalPairs = pairCount;
+  }
+
+  function renderBoard() {
+    board.innerHTML = "";
+    board.classList.toggle("easy", difficulty === "easy");
+    board.classList.toggle("hard", difficulty === "hard");
+
+    cards.forEach((card, index) => {
+      const btn = document.createElement("button");
+      btn.className = "game-card hidden";
+      btn.dataset.index = index;
+      const span = document.createElement("span");
+      span.textContent = card.symbol;
+      btn.appendChild(span);
+      board.appendChild(btn);
+    });
+  }
+
+  function resetStats() {
+    moves = 0;
+    matchedPairs = 0;
+    opened = [];
+    lockBoard = false;
+    elapsedSec = 0;
+    movesEl.textContent = "0";
+    pairsEl.textContent = "0";
+    updateTimeUI();
+  }
+
   function startGame() {
     resetStats();
     generateCards();
     renderBoard();
     msgEl.textContent = "Žaidimas pradėtas! Surask visas poras.";
-    startTimer(); // papildoma: laikmatis startuoja tik paspaudus Start
+    startTimer();            // <- ČIA LAIKMATIS STARTUOJA
   }
 
-  // Kortelės paspaudimas
+  // ================= ŽAIDIMO LOGIKA =================
+
   function onCardClick(e) {
     const btn = e.target.closest(".game-card");
     if (!btn || lockBoard) return;
 
     const index = Number(btn.dataset.index);
-    const card = cards[index];
-
-    // jei jau sutapusi arba jau atversta – nieko nedarom
     if (btn.classList.contains("matched") || opened.includes(index)) return;
 
     btn.classList.remove("hidden");
@@ -165,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 5. sutapimo taisyklės
   function checkMatch() {
     lockBoard = true;
     const [i1, i2] = opened;
@@ -178,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn2 = board.querySelector(`.game-card[data-index="${i2}"]`);
 
     if (c1.symbol === c2.symbol) {
-      // sutapo – paliekam atvertas ir padarom neaktyvias
       matchedPairs++;
       pairsEl.textContent = matchedPairs.toString();
       if (btn1 && btn2) {
@@ -190,34 +184,26 @@ document.addEventListener("DOMContentLoaded", () => {
       opened = [];
       lockBoard = false;
 
-      // 7. laimėjimo pranešimas
       if (matchedPairs === totalPairs) {
-        stopTimer(); // sustabdom laikmatį
-
+        // laimėjimas
+        stopTimer();
         msgEl.textContent = `Laimėjote! Viską radote per ${moves} ėjimų per ${timeEl.textContent}.`;
 
-        // PAPILDOMA: įrašom rezultatą į localStorage, jei jis geresnis
         const current = { moves, time: elapsedSec };
         const key = difficulty === "easy" ? LS_KEY_EASY : LS_KEY_HARD;
         const best = loadBest(key);
 
         let isBetter = false;
-        if (!best) {
-          isBetter = true;
-        } else if (current.moves < best.moves) {
-          isBetter = true;
-        } else if (current.moves === best.moves && current.time < best.time) {
-          isBetter = true;
-        }
+        if (!best) isBetter = true;
+        else if (current.moves < best.moves) isBetter = true;
+        else if (current.moves === best.moves && current.time < best.time) isBetter = true;
 
         if (isBetter) {
           saveBest(key, current);
           refreshBestUI();
         }
       }
-
     } else {
-      // nesutapo – po ~1s užverčiam atgal
       msgEl.textContent = "Nesutapo, bandyk dar kartą.";
       setTimeout(() => {
         if (btn1 && btn2) {
@@ -232,7 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Sunkumo pasirinkimas
+  // ================= EVENT HANDLERIAI =================
+
   diffButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       diffButtons.forEach((b) => b.classList.remove("active"));
@@ -245,16 +232,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 8. Start mygtukas
   startBtn.addEventListener("click", () => {
     startGame();
   });
 
-  // 9. Atnaujinti mygtukas
   resetBtn.addEventListener("click", () => {
     startGame();
   });
 
-  // klausom paspaudimų ant lentos
   board.addEventListener("click", onCardClick);
 });
