@@ -490,3 +490,141 @@ section.section:nth-of-type(5) {
   max-width: 320px;
   text-align: center;
 }
+/* ===========================
+   12 LAB – MANO ŽAIDIMAS
+   =========================== */
+
+.game-section {
+  position: relative;
+}
+
+.game-controls {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.game-difficulty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.game-stats {
+  font-size: 0.9rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.game-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Lenta */
+.game-board {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+/* 4x3 ir 6x4 išdėstymas */
+.game-board.easy {
+  grid-template-columns: repeat(4, minmax(0, 80px));
+}
+
+.game-board.hard {
+  grid-template-columns: repeat(6, minmax(0, 70px));
+}
+
+/* Kortelės */
+.game-card {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: linear-gradient(135deg, var(--bg-soft), #020617);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #f9fafb;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.4);
+}
+
+.game-card span {
+  pointer-events: none;
+}
+
+/* paslėpta kortelė – rodom klaustuką */
+.game-card.hidden span {
+  opacity: 0;
+}
+
+.game-card.hidden::after {
+  content: "?";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.9rem;
+  color: #e5e7eb;
+}
+
+/* atversta */
+.game-card.flipped {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.6);
+}
+
+/* sutapusi pora */
+.game-card.matched {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #052e16;
+  cursor: default;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.6);
+}
+
+/* išjungtas mygtukas */
+.btn.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* pranešimas */
+.game-message {
+  margin-top: 0.75rem;
+}
+
+/* mažiems ekranams */
+@media (max-width: 800px) {
+  .game-controls {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .game-board.easy {
+    grid-template-columns: repeat(3, minmax(0, 80px));
+  }
+
+  .game-board.hard {
+    grid-template-columns: repeat(4, minmax(0, 70px));
+  }
+}
