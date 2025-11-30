@@ -1,263 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
+// assets/js/custom.js
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Contact - Kelly Bootstrap Template</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contact-form");
+  if (!form) return; // jei netyčia skriptas įkeltas kitame puslapyje
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  const resultBox = document.getElementById("form-result");
+  const avgBox = document.getElementById("avg-result");
+  const popup = document.getElementById("form-popup");
+  const popupText = popup ? popup.querySelector(".popup-text") : null;
+  const popupClose = document.getElementById("popup-close");
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  // Pagalbinė funkcija – vidurkis
+  function calculateAverage(q1, q2, q3) {
+    return ( (q1 + q2 + q3) / 3 );
+  }
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // NEleisti puslapiui persikrauti
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
-</head>
+    // Surenkam duomenis iš formos
+    const data = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      address: form.address.value.trim(),
+      q1: Number(form.q1.value),
+      q2: Number(form.q2.value),
+      q3: Number(form.q3.value),
+    };
 
-<body class="contact-page">
+    // Paprastas patikrinimas – vertinimai turi būti 1–10
+    if (
+      data.q1 < 1 || data.q1 > 10 ||
+      data.q2 < 1 || data.q2 > 10 ||
+      data.q3 < 1 || data.q3 > 10
+    ) {
+      alert("Visi vertinimai turi būti tarp 1 ir 10.");
+      return;
+    }
 
-  <header id="header" class="header d-flex align-items-center light-background sticky-top">
-    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+    // 4.b – išvedam objektą į naršyklės konsolę
+    console.log("Kontaktų formos duomenys:", data);
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <h1 class="sitename">Kelly</h1>
-      </a>
+    // 4.c – atvaizduojam tas pačias reikšmes formos apačioje
+    if (resultBox) {
+      resultBox.style.display = "block";
+      resultBox.innerHTML = `
+        <strong>Vardas:</strong> ${data.firstName}<br>
+        <strong>Pavardė:</strong> ${data.lastName}<br>
+        <strong>El. paštas:</strong> 
+          <a href="mailto:${data.email}">${data.email}</a><br>
+        <strong>Tel. numeris:</strong> ${data.phone || "-"}<br>
+        <strong>Adresas:</strong> ${data.address || "-"}<br>
+        <strong>Vertinimai (1–10):</strong> ${data.q1}, ${data.q2}, ${data.q3}
+      `;
+    }
 
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="resume.html">Resume</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="contact.html" class="active">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+    // 5 užduotis – apskaičiuojam vidurkį ir parodom formatu:
+    // Vardas Pavardė: vidurkis (pvz., Vardenis Pavardenis: 9.8)
+    const avg = calculateAverage(data.q1, data.q2, data.q3);
+    if (avgBox) {
+      avgBox.textContent = `${data.firstName} ${data.lastName}: vidurkis ${avg.toFixed(1)}`;
+    }
 
-      <div class="header-social-links">
-        <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-      </div>
+    // 6 užduotis – parodom sėkmės pranešimą (pop-up)
+    if (popup && popupText) {
+      popupText.textContent = "Duomenys pateikti sėkmingai!";
+      popup.style.display = "flex";
+    }
+  });
 
-    </div>
-  </header>
-
-  <main class="main">
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Kontaktai</h2>
-        <p>Čia galite palikti savo kontaktus ir trumpai įsivertinti studijų / IT įgūdžius.</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-5">
-
-            <div class="info-wrap">
-              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-                <i class="bi bi-geo-alt flex-shrink-0"></i>
-                <div>
-                  <h3>Adresas</h3>
-                  <p>A108 Adam Street, New York, NY 535022</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-                <i class="bi bi-telephone flex-shrink-0"></i>
-                <div>
-                  <h3>Telefonas</h3>
-                  <p>+1 5589 55488 55</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-                <i class="bi bi-envelope flex-shrink-0"></i>
-                <div>
-                  <h3>El. paštas</h3>
-                  <p>info@example.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-          </div>
-
-          <div class="col-lg-7">
-            <!-- Atnaujinta kontaktų forma pagal laboratorinį darbą -->
-            <form id="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <label for="firstName" class="pb-2">Vardas</label>
-                  <input type="text" name="firstName" id="firstName" class="form-control" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="lastName" class="pb-2">Pavardė</label>
-                  <input type="text" name="lastName" id="lastName" class="form-control" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="email" class="pb-2">El. paštas</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="phone" class="pb-2">Telefono numeris</label>
-                  <input type="tel" class="form-control" name="phone" id="phone" placeholder="+370 6xx xxxxx">
-                </div>
-
-                <div class="col-md-12">
-                  <label for="address" class="pb-2">Adresas</label>
-                  <input type="text" class="form-control" name="address" id="address">
-                </div>
-
-                <div class="col-12"><hr></div>
-
-                <!-- 3 klausimai įvertinimui (1–10) -->
-                <div class="col-md-12">
-                  <label for="q1" class="pb-2">JavaScript žinių įvertinimas (1–10)</label>
-                  <div class="d-flex align-items-center gap-3">
-                    <input type="range" class="form-range" id="q1" name="q1" min="1" max="10" value="5"
-                      oninput="document.getElementById('q1-value').textContent = this.value">
-                    <span id="q1-value" class="fw-bold">5</span>
-                  </div>
-                </div>
-
-                <div class="col-md-12">
-                  <label for="q2" class="pb-2">HTML / CSS žinių įvertinimas (1–10)</label>
-                  <div class="d-flex align-items-center gap-3">
-                    <input type="range" class="form-range" id="q2" name="q2" min="1" max="10" value="5"
-                      oninput="document.getElementById('q2-value').textContent = this.value">
-                    <span id="q2-value" class="fw-bold">5</span>
-                  </div>
-                </div>
-
-                <div class="col-md-12">
-                  <label for="q3" class="pb-2">Motyvacija tobulėti IT srityje (1–10)</label>
-                  <div class="d-flex align-items-center gap-3">
-                    <input type="range" class="form-range" id="q3" name="q3" min="1" max="10" value="5"
-                      oninput="document.getElementById('q3-value').textContent = this.value">
-                    <span id="q3-value" class="fw-bold">5</span>
-                  </div>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <button type="submit" class="btn btn-primary px-4">Submit</button>
-                </div>
-
-              </div>
-            </form>
-
-            <!-- Rezultatų atvaizdavimas (užduotis 4 ir 5) -->
-            <div id="form-result" class="mt-4 alert alert-secondary" style="display:none;"></div>
-            <div id="avg-result" class="mt-2 fw-bold"></div>
-
-            <!-- Paprastas „popup“ pranešimas (užduotis 6) -->
-            <div id="form-popup" class="form-popup" style="
-              position: fixed;
-              inset: 0;
-              background: rgba(0,0,0,0.45);
-              display: none;
-              align-items: center;
-              justify-content: center;
-              z-index: 9999;">
-              <div class="popup-inner bg-white p-4 rounded shadow text-center">
-                <p class="popup-text mb-3">Duomenys pateikti sėkmingai!</p>
-                <button type="button" id="popup-close" class="btn btn-success px-4">Gerai</button>
-              </div>
-            </div>
-
-          </div><!-- End Contact Form Column -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Contact Section -->
-
-  </main>
-
-  <footer id="footer" class="footer light-background">
-
-    <div class="container">
-      <div class="copyright text-center ">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">Kelly</strong> <span>All Rights Reserved<br></span></p>
-      </div>
-      <div class="social-links d-flex justify-content-center">
-        <a href=""><i class="bi bi-twitter-x"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
-      </div>
-      <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
-  </footer>
-
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-  <!-- Tavo laboratorinio skriptas -->
-  <script src="assets/js/custom.js"></script>
-
-</body>
-</html>
+  // Pop-up uždarymas
+  if (popupClose && popup) {
+    popupClose.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+  }
+});
