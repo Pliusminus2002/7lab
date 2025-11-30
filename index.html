@@ -186,16 +186,99 @@
     </div>
   </section>
 
-  <!-- KONTAKTAI -->
+   <!-- KONTAKTAI + 11 LAB FORMOS UŽDUOTIS -->
   <section id="contact" class="section">
     <div class="container card">
       <h2>Kontaktai</h2>
+
       <p><strong>Vietovė:</strong> Vilnius, Lietuva</p>
       <p><strong>El. paštas:</strong> <a href="mailto:vaidile18@gmail.com">vaidile18@gmail.com</a></p>
       <p><strong>Tel.:</strong> <a href="tel:+37062072363">+370 620 72363</a></p>
+
+      <hr class="mt">
+
+      <h3 class="mt">Kontaktų forma (11 laboratorinis)</h3>
+      <p class="text-muted small">
+        Užpildyk formą ir įsivertink savo IT / studijų pasirengimą. Duomenys bus pavaizduoti čia pačiame puslapyje (JS).
+      </p>
+
+      <!-- 11 LAB FORMOS DALIS -->
+      <form id="contact-form" class="contact-form mt">
+
+        <div class="form-row">
+          <label for="firstName">Vardas</label>
+          <input type="text" id="firstName" name="firstName" required>
+        </div>
+
+        <div class="form-row">
+          <label for="lastName">Pavardė</label>
+          <input type="text" id="lastName" name="lastName" required>
+        </div>
+
+        <div class="form-row">
+          <label for="email">El. paštas</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-row">
+          <label for="phone">Telefono numeris</label>
+          <input type="tel" id="phone" name="phone" placeholder="+370 6xx xxxxx">
+        </div>
+
+        <div class="form-row">
+          <label for="address">Adresas</label>
+          <input type="text" id="address" name="address">
+        </div>
+
+        <hr>
+
+        <!-- 3 klausimai (1–10) -->
+        <div class="form-row">
+          <label for="q1">JavaScript žinių įvertinimas (1–10)</label>
+          <div class="slider-row">
+            <input type="range" id="q1" name="q1" min="1" max="10" value="5"
+                   oninput="document.getElementById('q1-value').textContent = this.value">
+            <span id="q1-value" class="badge-value">5</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="q2">HTML / CSS žinių įvertinimas (1–10)</label>
+          <div class="slider-row">
+            <input type="range" id="q2" name="q2" min="1" max="10" value="5"
+                   oninput="document.getElementById('q2-value').textContent = this.value">
+            <span id="q2-value" class="badge-value">5</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="q3">Motyvacija tobulėti IT srityje (1–10)</label>
+          <div class="slider-row">
+            <input type="range" id="q3" name="q3" min="1" max="10" value="5"
+                   oninput="document.getElementById('q3-value').textContent = this.value">
+            <span id="q3-value" class="badge-value">5</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn mt">Pateikti</button>
+      </form>
+
+      <!-- Rezultatų atvaizdavimas (11 labo 4–5 punktai) -->
+      <div id="form-result" class="form-result mt"></div>
+      <div id="avg-result" class="form-avg mt small"></div>
+
+      <!-- Pop-up pranešimas (11 labo 6 punktas) -->
+      <div id="form-popup" class="form-popup">
+        <div class="popup-inner">
+          <p class="popup-text">Duomenys pateikti sėkmingai!</p>
+          <button type="button" id="popup-close" class="btn-outline mt">Gerai</button>
+        </div>
+      </div>
+
       <a class="btn-outline mt" href="#hero">Į viršų</a>
     </div>
   </section>
+
 
   <footer class="footer">
     <div class="container small">© <span id="y"></span> Vaidilė Dubickaitė</div>
