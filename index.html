@@ -289,14 +289,13 @@
   </script>
   <script src="assets/js/custom.js"></script>
     <!-- MANO ŽAIDIMAS – 12 laboratorinis -->
-  <section id="game" class="section">
+   <section id="game" class="section">
     <div class="container card game-section">
       <h2>Mano žaidimas</h2>
       <p class="text-muted small">
         Atminties kortelių žaidimas. Pasirink lygį, paspausk „Start“ ir bandyk rasti visas poras.
       </p>
 
-      <!-- 1.a – sudėtingumo lygio pasirinkimas -->
       <div class="game-controls">
         <div class="game-difficulty">
           <span>Sunkumas:</span>
@@ -308,30 +307,28 @@
           </button>
         </div>
 
-        <!-- 1.c – statistikos rodikliai -->
         <div class="game-stats">
           <div><strong>Ėjimai:</strong> <span id="game-moves">0</span></div>
           <div><strong>Poros:</strong> <span id="game-pairs">0</span></div>
+          <div><strong>Laikas:</strong> <span id="game-time">00:00</span></div>
         </div>
 
-        <!-- 1.d – mygtukai Start ir Atnaujinti -->
         <div class="game-buttons">
           <button type="button" id="game-start" class="btn">Start</button>
           <button type="button" id="game-reset" class="btn-outline">Atnaujinti</button>
         </div>
       </div>
 
-      <!-- 1.b – žaidimų lenta -->
-      <div id="game-board" class="game-board">
-        <!-- Kortelės bus sugeneruotos per JavaScript -->
+      <!-- Papildoma užduotis: geriausi rezultatai -->
+      <div class="game-best small">
+        <div><strong>Geriausias (lengvas):</strong> <span id="best-easy">–</span></div>
+        <div><strong>Geriausias (sunkus):</strong> <span id="best-hard">–</span></div>
       </div>
 
-      <!-- 1.e ir 7 – laimėjimo pranešimas -->
+      <div id="game-board" class="game-board"></div>
+
       <div id="game-message" class="game-message text-muted small mt">
         Pasirink sunkumą ir paspausk „Start“, kad pradėtum žaidimą.
       </div>
     </div>
   </section>
-
-</body>
-</html>
