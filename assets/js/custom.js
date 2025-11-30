@@ -1,90 +1,17 @@
-// assets/js/custom.js
-// 11 laboratorinis – formos apdorojimas
-
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contact-form");
-  if (!form) return; // jei dėl kažkokių priežasčių formos nėra
-
-  const resultBox = document.getElementById("form-result");
-  const avgBox = document.getElementById("avg-result");
-  const popup = document.getElementById("form-popup");
-  const popupText = popup ? popup.querySelector(".popup-text") : null;
-  const popupClose = document.getElementById("popup-close");
-
-  // 5. Pagalbinė funkcija vidurkiui
-  function calculateAverage(q1, q2, q3) {
-    return (q1 + q2 + q3) / 3;
-  }
-
-  // 4. Formos submit handleris
-  form.addEventListener("submit", (e) => {
-    e.preventDefault(); // sustabdom standartinį formos pateikimą
-
-    // 4.a – paimam duomenis iš formos
-    const data = {
-      firstName: form.firstName.value.trim(),
-      lastName: form.lastName.value.trim(),
-      email: form.email.value.trim(),
-      phone: form.phone.value.trim(),
-      address: form.address.value.trim(),
-      q1: Number(form.q1.value),
-      q2: Number(form.q2.value),
-      q3: Number(form.q3.value),
-    };
-
-    // Paprasta validacija: vardas, pavardė ir el. paštas privalomi
-    if (!data.firstName || !data.lastName || !data.email) {
-      alert("Prašau užpildyti vardą, pavardę ir el. paštą.");
-      return;
-    }
-
-    // 4.b – išvedam visą objektą į console
-    console.log("Kontaktų formos duomenys:", data);
-
-    // 4.c – atvaizduojam tekstą puslapyje
-    if (resultBox) {
-      resultBox.innerHTML = `
-        <strong>Vardas:</strong> ${data.firstName}<br>
-        <strong>Pavardė:</strong> ${data.lastName}<br>
-        <strong>El. paštas:</strong> 
-          <a href="mailto:${data.email}">${data.email}</a><br>
-        <strong>Tel. numeris:</strong> ${data.phone || "–"}<br>
-        <strong>Adresas:</strong> ${data.address || "–"}<br>
-        <strong>Vertinimai (1–10):</strong> ${data.q1}, ${data.q2}, ${data.q3}
-      `;
-    }
-
-    // 5. Vidurkis – parodomas po forma
-    const avg = calculateAverage(data.q1, data.q2, data.q3);
-    if (avgBox) {
-      avgBox.textContent = `${data.firstName} ${data.lastName}: vidurkis ${avg.toFixed(1)}`;
-    }
-
-    // 6. Pop-up pranešimas
-    if (popup && popupText) {
-      popupText.textContent = "Duomenys pateikti sėkmingai!";
-      popup.style.display = "flex";
-    }
-  });
-
-  // Pop-up uždarymas
-  if (popupClose && popup) {
-    popupClose.addEventListener("click", () => {
-      popup.style.display = "none";
-    });
-  }
-});
 // ===========================
-// 12 LAB – MANO ŽAIDIMAS
+// 12 LAB – MANO ŽAIDIMAS + PAPILDOMA
 // ===========================
 document.addEventListener("DOMContentLoaded", () => {
   const board = document.getElementById("game-board");
   const movesEl = document.getElementById("game-moves");
   const pairsEl = document.getElementById("game-pairs");
+  const timeEl = document.getElementById("game-time");
   const msgEl = document.getElementById("game-message");
   const startBtn = document.getElementById("game-start");
   const resetBtn = document.getElementById("game-reset");
   const diffButtons = document.querySelectorAll(".game-diff-btn");
+  const bestEasyEl = document.getElementById("best-easy");
+  const bestHardEl = document.getElementById("best-hard");
 
   // jei šiame puslapyje nėra žaidimo – išeinam
   if (!board || !startBtn) return;
@@ -99,6 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let moves = 0;
   let matchedPairs = 0;
   let totalPairs = 0;
+
+  // Papildoma: laikmatis
+  let timerId = null;
+  let elapsedSec = 0;
+
+  const LS_KEY_EASY = "memoryGameBest_easy";
+  const LS_KEY_HARD = "memoryGameBest_hard";
 
   // Pagal sugeneruotą masyvą atnaujina lentą
   function renderBoard() {
@@ -144,9 +78,63 @@ document.addEventListener("DOMContentLoaded", () => {
     matchedPairs = 0;
     opened = [];
     lockBoard = false;
+    elapsedSec = 0;
     movesEl.textContent = "0";
     pairsEl.textContent = "0";
+    updateTimeUI();
   }
+
+  // Laikmatis
+  function updateTimeUI() {
+    const m = Math.floor(elapsedSec / 60);
+    const s = elapsedSec % 60;
+    timeEl.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+
+  function startTimer() {
+    stopTimer();
+    timerId = setInterval(() => {
+      elapsedSec++;
+      updateTimeUI();
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  // localStorage – geriausi rezultatai
+  function loadBest(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveBest(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+
+  function formatBest(best) {
+    if (!best) return "–";
+    const m = Math.floor(best.time / 60);
+    const s = best.time % 60;
+    const timeStr = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    return `${best.moves} ėj., ${timeStr}`;
+  }
+
+  function refreshBestUI() {
+    if (bestEasyEl) bestEasyEl.textContent = formatBest(loadBest(LS_KEY_EASY));
+    if (bestHardEl) bestHardEl.textContent = formatBest(loadBest(LS_KEY_HARD));
+  }
+
+  // iškart parodom, jei jau yra rezultatai
+  refreshBestUI();
 
   // Start / Restart žaidimą su dabartiniu sunkumu
   function startGame() {
@@ -154,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     generateCards();
     renderBoard();
     msgEl.textContent = "Žaidimas pradėtas! Surask visas poras.";
+    startTimer(); // papildoma: laikmatis startuoja tik paspaudus Start
   }
 
   // Kortelės paspaudimas
@@ -203,7 +192,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 7. laimėjimo pranešimas
       if (matchedPairs === totalPairs) {
-        msgEl.textContent = `Laimėjote! Viską radote per ${moves} ėjimų.`;
+        stopTimer(); // sustabdom laikmatį
+
+        msgEl.textContent = `Laimėjote! Viską radote per ${moves} ėjimų per ${timeEl.textContent}.`;
+
+        // PAPILDOMA: įrašom rezultatą į localStorage, jei jis geresnis
+        const current = { moves, time: elapsedSec };
+        const key = difficulty === "easy" ? LS_KEY_EASY : LS_KEY_HARD;
+        const best = loadBest(key);
+
+        let isBetter = false;
+        if (!best) {
+          isBetter = true;
+        } else if (current.moves < best.moves) {
+          isBetter = true;
+        } else if (current.moves === best.moves && current.time < best.time) {
+          isBetter = true;
+        }
+
+        if (isBetter) {
+          saveBest(key, current);
+          refreshBestUI();
+        }
       }
 
     } else {
@@ -228,7 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
       diffButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       difficulty = btn.dataset.level === "hard" ? "hard" : "easy";
-      // 3.b – pakeitus sunkumą, lenta paruošiama iš naujo (kol nėra Start, tik kol kas tuščia)
       board.innerHTML = "";
       msgEl.textContent = `Pasirinktas lygis: ${
         difficulty === "easy" ? "Lengvas (4×3)" : "Sunkus (6×4)"
