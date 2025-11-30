@@ -628,3 +628,12 @@ section.section:nth-of-type(5) {
     grid-template-columns: repeat(4, minmax(0, 70px));
   }
 }
+.game-best {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.game-best span {
+  font-variant-numeric: tabular-nums;
+}
