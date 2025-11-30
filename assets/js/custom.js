@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3) Atvaizduojam formos apačioje (užduotis 4.c)
     if (resultBox) {
+        resultBox.style.display = "block";
       resultBox.innerHTML = `
         <strong>Vardas:</strong> ${data.firstName}<br>
         <strong>Pavardė:</strong> ${data.lastName}<br>
