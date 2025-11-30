@@ -406,42 +406,87 @@ section.section:nth-of-type(5) {
   }
 }
 /* ===========================
-   CONTACT FORM (11 laboratorinis)
+   11 LAB – KONTAKTŲ FORMA
    =========================== */
 
-#contact-form .form-range {
-  accent-color: var(--brand);
+.contact-form {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.75rem;
 }
 
-#form-result {
-  display: none;              /* pradžioj paslėptas – JS įjungs display:block */
-  font-size: 0.95rem;
+.contact-form .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-#avg-result {
-  font-size: 1rem;
+.contact-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
-/* Pop-up stilius, jei nenori inline style */
-#form-popup {
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"],
+.contact-form input[type="range"] {
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: lab(96% 0 0.01);
+  font: inherit;
+}
+
+.contact-form input[type="range"] {
+  padding: 0;
+}
+
+/* Slider eilutė (range + skaičiukas šone) */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.badge-value {
+  min-width: 2.2rem;
+  text-align: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  background: var(--bg-soft);
+  color: #f9fafb;
+  font-weight: 600;
+}
+
+/* Rezultatų blokai */
+.form-result {
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  background: lab(94% 0 0.01);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  font-size: 0.9rem;
+}
+
+.form-avg {
+  font-weight: 600;
+}
+
+/* Pop-up overlay */
+.form-popup {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: none;
+  background: rgba(15, 23, 42, 0.6);
+  display: none;                  /* JS įjungs display:flex */
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
-#form-popup .popup-inner {
-  background: #ffffff;
-  padding: 1.5rem 2rem;
-  border-radius: 16px;
-  text-align: center;
-  max-width: 320px;
+.form-popup .popup-inner {
+  background: lab(96% 0 0.01);
+  padding: 1.5rem 1.8rem;
+  border-radius: 18px;
   box-shadow: var(--shadow);
-}
-
-#form-popup .popup-inner .popup-text {
-  margin-bottom: 0.75rem;
+  max-width: 320px;
+  text-align: center;
 }
