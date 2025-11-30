@@ -15,7 +15,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,14 +26,6 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Kelly
-  * Template URL: https://bootstrapmade.com/kelly-free-bootstrap-cv-resume-html-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="contact-page">
@@ -42,8 +34,6 @@
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1 class="sitename">Kelly</h1>
       </a>
 
@@ -93,8 +83,8 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <h2>Kontaktai</h2>
+        <p>Čia galite palikti savo kontaktus ir trumpai įsivertinti studijų / IT įgūdžius.</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -107,7 +97,7 @@
               <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                 <div>
-                  <h3>Address</h3>
+                  <h3>Adresas</h3>
                   <p>A108 Adam Street, New York, NY 535022</p>
                 </div>
               </div><!-- End Info Item -->
@@ -115,7 +105,7 @@
               <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
                 <i class="bi bi-telephone flex-shrink-0"></i>
                 <div>
-                  <h3>Call Us</h3>
+                  <h3>Telefonas</h3>
                   <p>+1 5589 55488 55</p>
                 </div>
               </div><!-- End Info Item -->
@@ -123,7 +113,7 @@
               <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
                 <i class="bi bi-envelope flex-shrink-0"></i>
                 <div>
-                  <h3>Email Us</h3>
+                  <h3>El. paštas</h3>
                   <p>info@example.com</p>
                 </div>
               </div><!-- End Info Item -->
@@ -133,40 +123,92 @@
           </div>
 
           <div class="col-lg-7">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+            <!-- Atnaujinta kontaktų forma pagal laboratorinį darbą -->
+            <form id="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="row gy-4">
 
                 <div class="col-md-6">
-                  <label for="name-field" class="pb-2">Your Name</label>
-                  <input type="text" name="name" id="name-field" class="form-control" required="">
+                  <label for="firstName" class="pb-2">Vardas</label>
+                  <input type="text" name="firstName" id="firstName" class="form-control" required>
                 </div>
 
                 <div class="col-md-6">
-                  <label for="email-field" class="pb-2">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email-field" required="">
+                  <label for="lastName" class="pb-2">Pavardė</label>
+                  <input type="text" name="lastName" id="lastName" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="email" class="pb-2">El. paštas</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="phone" class="pb-2">Telefono numeris</label>
+                  <input type="tel" class="form-control" name="phone" id="phone" placeholder="+370 6xx xxxxx">
                 </div>
 
                 <div class="col-md-12">
-                  <label for="subject-field" class="pb-2">Subject</label>
-                  <input type="text" class="form-control" name="subject" id="subject-field" required="">
+                  <label for="address" class="pb-2">Adresas</label>
+                  <input type="text" class="form-control" name="address" id="address">
+                </div>
+
+                <div class="col-12"><hr></div>
+
+                <!-- 3 klausimai įvertinimui (1–10) -->
+                <div class="col-md-12">
+                  <label for="q1" class="pb-2">JavaScript žinių įvertinimas (1–10)</label>
+                  <div class="d-flex align-items-center gap-3">
+                    <input type="range" class="form-range" id="q1" name="q1" min="1" max="10" value="5"
+                      oninput="document.getElementById('q1-value').textContent = this.value">
+                    <span id="q1-value" class="fw-bold">5</span>
+                  </div>
                 </div>
 
                 <div class="col-md-12">
-                  <label for="message-field" class="pb-2">Message</label>
-                  <textarea class="form-control" name="message" rows="10" id="message-field" required=""></textarea>
+                  <label for="q2" class="pb-2">HTML / CSS žinių įvertinimas (1–10)</label>
+                  <div class="d-flex align-items-center gap-3">
+                    <input type="range" class="form-range" id="q2" name="q2" min="1" max="10" value="5"
+                      oninput="document.getElementById('q2-value').textContent = this.value">
+                    <span id="q2-value" class="fw-bold">5</span>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label for="q3" class="pb-2">Motyvacija tobulėti IT srityje (1–10)</label>
+                  <div class="d-flex align-items-center gap-3">
+                    <input type="range" class="form-range" id="q3" name="q3" min="1" max="10" value="5"
+                      oninput="document.getElementById('q3-value').textContent = this.value">
+                    <span id="q3-value" class="fw-bold">5</span>
+                  </div>
                 </div>
 
                 <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
+                  <button type="submit" class="btn btn-primary px-4">Submit</button>
                 </div>
 
               </div>
             </form>
-          </div><!-- End Contact Form -->
+
+            <!-- Rezultatų atvaizdavimas (užduotis 4 ir 5) -->
+            <div id="form-result" class="mt-4 alert alert-secondary" style="display:none;"></div>
+            <div id="avg-result" class="mt-2 fw-bold"></div>
+
+            <!-- Paprastas „popup“ pranešimas (užduotis 6) -->
+            <div id="form-popup" class="form-popup" style="
+              position: fixed;
+              inset: 0;
+              background: rgba(0,0,0,0.45);
+              display: none;
+              align-items: center;
+              justify-content: center;
+              z-index: 9999;">
+              <div class="popup-inner bg-white p-4 rounded shadow text-center">
+                <p class="popup-text mb-3">Duomenys pateikti sėkmingai!</p>
+                <button type="button" id="popup-close" class="btn btn-success px-4">Gerai</button>
+              </div>
+            </div>
+
+          </div><!-- End Contact Form Column -->
 
         </div>
 
@@ -189,10 +231,6 @@
         <a href=""><i class="bi bi-linkedin"></i></a>
       </div>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
@@ -207,7 +245,6 @@
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -219,6 +256,8 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
-</body>
+  <!-- Tavo laboratorinio skriptas -->
+  <script src="assets/js/custom.js"></script>
 
+</body>
 </html>
