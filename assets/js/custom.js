@@ -1,27 +1,26 @@
-// globalūs nustatymai
-let is24hFormat = true;            // čia tau nereikalinga formoms, bet palik, jei naudoji kitur
-let studyRemindersEnabled = true;  // tas pats
+// assets/js/custom.js
+// 11 laboratorinis – formos apdorojimas
 
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("#contact-form");
-  if (!form) return; // jei nėra formos šiame puslapyje
+  const form = document.getElementById("contact-form");
+  if (!form) return; // jei dėl kažkokių priežasčių formos nėra
 
-  const resultBox = document.querySelector("#form-result");
-  const avgBox = document.querySelector("#avg-result");
-  const popup = document.querySelector("#form-popup");
-  const popupText = popup?.querySelector(".popup-text");
-  const popupClose = document.querySelector("#popup-close");
+  const resultBox = document.getElementById("form-result");
+  const avgBox = document.getElementById("avg-result");
+  const popup = document.getElementById("form-popup");
+  const popupText = popup ? popup.querySelector(".popup-text") : null;
+  const popupClose = document.getElementById("popup-close");
 
-  // Pagalbinė funkcija – vidurkis
+  // 5. Pagalbinė funkcija vidurkiui
   function calculateAverage(q1, q2, q3) {
-    return ((q1 + q2 + q3) / 3).toFixed(1);
+    return (q1 + q2 + q3) / 3;
   }
 
-  // Formos submit
+  // 4. Formos submit handleris
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // NEpersikrauna puslapis
+    e.preventDefault(); // sustabdom standartinį formos pateikimą
 
-    // 1) Surenkam duomenis
+    // 4.a – paimam duomenis iš formos
     const data = {
       firstName: form.firstName.value.trim(),
       lastName: form.lastName.value.trim(),
@@ -33,40 +32,45 @@ document.addEventListener("DOMContentLoaded", () => {
       q3: Number(form.q3.value),
     };
 
-    // 2) Išvedam į console (užduotis 4.b)
+    // Paprasta validacija: vardas, pavardė ir el. paštas privalomi
+    if (!data.firstName || !data.lastName || !data.email) {
+      alert("Prašau užpildyti vardą, pavardę ir el. paštą.");
+      return;
+    }
+
+    // 4.b – išvedam visą objektą į console
     console.log("Kontaktų formos duomenys:", data);
 
-    // 3) Atvaizduojam formos apačioje (užduotis 4.c)
+    // 4.c – atvaizduojam tekstą puslapyje
     if (resultBox) {
-        resultBox.style.display = "block";
       resultBox.innerHTML = `
         <strong>Vardas:</strong> ${data.firstName}<br>
         <strong>Pavardė:</strong> ${data.lastName}<br>
-        <strong>El. paštas:</strong> <a href="mailto:${data.email}">${data.email}</a><br>
-        <strong>Tel. numeris:</strong> ${data.phone}<br>
-        <strong>Adresas:</strong> ${data.address}<br>
+        <strong>El. paštas:</strong> 
+          <a href="mailto:${data.email}">${data.email}</a><br>
+        <strong>Tel. numeris:</strong> ${data.phone || "–"}<br>
+        <strong>Adresas:</strong> ${data.address || "–"}<br>
         <strong>Vertinimai (1–10):</strong> ${data.q1}, ${data.q2}, ${data.q3}
       `;
     }
 
-    // 4) Skaičiuojam klausimų vidurkį (užduotis 5)
+    // 5. Vidurkis – parodomas po forma
     const avg = calculateAverage(data.q1, data.q2, data.q3);
-
     if (avgBox) {
-      avgBox.textContent = `${data.firstName} ${data.lastName}: vidurkis ${avg}`;
+      avgBox.textContent = `${data.firstName} ${data.lastName}: vidurkis ${avg.toFixed(1)}`;
     }
 
-    // 5) Parodom „Duomenys pateikti sėkmingai“ pranešimą (užduotis 6)
+    // 6. Pop-up pranešimas
     if (popup && popupText) {
       popupText.textContent = "Duomenys pateikti sėkmingai!";
-      popup.classList.add("visible");
+      popup.style.display = "flex";
     }
   });
 
-  // pop-up uždarymo mygtukas
+  // Pop-up uždarymas
   if (popupClose && popup) {
     popupClose.addEventListener("click", () => {
-      popup.classList.remove("visible");
+      popup.style.display = "none";
     });
   }
 });
